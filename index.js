@@ -1,6 +1,7 @@
 let numBtns = document.querySelectorAll('.num')
 let display = document.querySelector('#display')
 let addBtn = document.querySelector('#add-btn')
+let subBtn = document.querySelector('#sub-btn')
 let onBtn = document.querySelector('#on-btn')
 let opBtns = document.querySelectorAll('.op')
 let equalBtn = document.querySelector('#equal-btn')
@@ -19,41 +20,49 @@ function showDisplay() {
     })
     opBtns.forEach(op => {
         op.addEventListener('click', function() {
-            currentFunc = op.value
-            console.log(currentFunc)
-            let nind = +indVals.join('')
-            if (nind < 0 || nind > 0) {
-                displayVals.push(nind)
-            }
-            console.log(displayVals)
-            indVals = []
-            display.textContent = ''
-
-            if (displayVals.length > 1) {
+            if (currentFunc === undefined) {
+                currentFunc = op.value
+                updateDisplay()
+            } else if (currentFunc != op.value) {
+                updateDisplay()
                 operate()
+            } else if (currentFunc === op.value) {
+                updateDisplay()
+                operate()
+            }
+            // console.log(currentFunc)
+            // let nind = +indVals.join('')
+            // if (nind < 0 || nind > 0) {
+            //     displayVals.push(nind)
+            // }
+            // console.log(displayVals)
+            // indVals = []
+            // display.textContent = ''
+
+            // if (displayVals.length > 1) {
+            //     operate()
                 // display.textContent = ''
-            } 
+            currentFunc = op.value
+            }) 
         })
-    })
 }
 
 showDisplay()
+
+function updateDisplay() {
+    let nind = +indVals.join('')
+    if (nind < 0 || nind > 0) {
+        displayVals.push(nind)
+    }
+    console.log(displayVals)
+    indVals = []
+    display.textContent = ''
+}
 
 addBtn.addEventListener('click', add)
 
 
 equalBtn.addEventListener('click', operate)
-
-
-
-
-
-
-
-
-
-
-
 
 
 function add(x, y) {
@@ -92,8 +101,11 @@ function operate(func, num1, num2) {
         display.textContent = currentValue
         displayVals = [currentValue]
         indVals = []
-    } else if(func === subtract) {
-        return subtract(num1, num2)
+    } else if(func === 'subtract') {
+        currentValue = subtract(displayVals[0], displayVals[1])
+        display.textContent = currentValue
+        displayVals = [currentValue]
+        indVals = []
     } else if(func === divide) {
         return divide(num1, num2) 
     } else {
