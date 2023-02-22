@@ -1,8 +1,11 @@
 let numBtns = document.querySelectorAll('.num')
 let display = document.querySelector('#display')
+
 let addBtn = document.querySelector('#add-btn')
 let subBtn = document.querySelector('#sub-btn')
-let onBtn = document.querySelector('#on-btn')
+let divBtn = document.querySelector('#div-btn')
+let multBtn = document.querySelector('#multiply-btn')
+
 let opBtns = document.querySelectorAll('.op')
 let equalBtn = document.querySelector('#equal-btn')
 let currentFunc;
@@ -23,10 +26,7 @@ function showDisplay() {
             if (currentFunc === undefined) {
                 currentFunc = op.value
                 updateDisplay()
-            } else if (currentFunc != op.value) {
-                updateDisplay()
-                operate()
-            } else if (currentFunc === op.value) {
+            } else {
                 updateDisplay()
                 operate()
             }
@@ -81,20 +81,21 @@ const subtract = function(x,y) {
 };
 
 const divide = function(x, y) {
-    return x / y
+    if (y === 0) {
+        alert('Error! Cannot divide by zero')
+    } else {
+        return x / y
+    }
 }
 
-const multiply = function(...x) {
-  let result = 1;
-  for (let i = 0; i < x.length; i++) {
-      result = result * x[i]
-  }
-
-  return result
+const multiply = function(x, y) {
+    return x * y
 };
 
 function operate(func, num1, num2) {
     displayVals.push(+indVals.join(''))
+    num1 = displayVals[0]
+    num2 = displayVals[1]
     func = currentFunc
     if (func === 'add') {
         currentValue = add(displayVals[0], displayVals[1])
@@ -106,10 +107,20 @@ function operate(func, num1, num2) {
         display.textContent = currentValue
         displayVals = [currentValue]
         indVals = []
-    } else if(func === divide) {
-        return divide(num1, num2) 
-    } else {
-        return multiply(num1, num2)
+    } else if(func === 'divide') {
+        if (num2 === 0) {
+            alert('Error, cannot divide by zero!')
+        } else {
+            currentValue = divide(displayVals[0], displayVals[1])
+            display.textContent = currentValue
+            displayVals = [currentValue]
+            indVals = []
+        }
+    } else if (func === 'multiply') {
+        currentValue = multiply(displayVals[0], displayVals[1])
+        display.textContent = currentValue
+        displayVals = [currentValue]
+        indVals = []
     }
 }
 
