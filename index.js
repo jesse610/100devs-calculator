@@ -14,7 +14,7 @@ function showDisplay() {
         num.addEventListener('click', function() {
             indVals.push(this.value)
             console.log(indVals)
-            display.textContent += this.value
+            display.textContent = indVals.join('')
         })
     })
     opBtns.forEach(op => {
@@ -22,10 +22,17 @@ function showDisplay() {
             currentFunc = op.value
             console.log(currentFunc)
             let nind = +indVals.join('')
-            displayVals.push(nind)
-            indVals = []
+            if (nind < 0 || nind > 0) {
+                displayVals.push(nind)
+            }
             console.log(displayVals)
+            indVals = []
             display.textContent = ''
+
+            if (displayVals.length > 1) {
+                operate()
+                // display.textContent = ''
+            } 
         })
     })
 }
