@@ -5,74 +5,83 @@ let addBtn = document.querySelector('#add-btn')
 let subBtn = document.querySelector('#sub-btn')
 let divBtn = document.querySelector('#div-btn')
 let multBtn = document.querySelector('#multiply-btn')
+let clearBtn = document.querySelector('#clear-btn')
 
 let opBtns = document.querySelectorAll('.op')
 let equalBtn = document.querySelector('#equal-btn')
+
 let currentFunc;
-let indVals = [];
-let displayVals = [];
 let currentValue;
+
+
+let val = ''
+let num1;
+let num2;
 
 function showDisplay() {
     numBtns.forEach(num => {
         num.addEventListener('click', function() {
-            indVals.push(this.value)
-            console.log(indVals)
-            display.textContent = indVals.join('')
+            if(currentValue === undefined) {
+                val += this.value
+                console.log(val)
+                display.textContent += this.value
+            } else if (currentValue != undefined) {
+                if (+display.textContent === currentValue) {
+                    display.textContent = ''
+                }
+                display.textContent += this.value
+                val += this.value
+                num2 = +val
+            }
         })
     })
+
     opBtns.forEach(op => {
         op.addEventListener('click', function() {
             if (currentFunc === undefined) {
                 currentFunc = op.value
-                updateDisplay()
-            } else {
-                updateDisplay()
+                num1 = +val
+                val = ''
+                display.textContent = ''
+                console.log(num1)
+            } else if (num1 != undefined && val != '') {
+                num2 = +val
                 operate()
+                currentFunc = op.value
+            } 
+            else if (currentFunc === op.value && val != '') {
+                num2 = +val
+                val = ''
+                display.textContent = ''
+                console.log(num2)
+            } else if (currentFunc != op.value) {
+                currentFunc = op.value
             }
-            // console.log(currentFunc)
-            // let nind = +indVals.join('')
-            // if (nind < 0 || nind > 0) {
-            //     displayVals.push(nind)
-            // }
-            // console.log(displayVals)
-            // indVals = []
-            // display.textContent = ''
-
-            // if (displayVals.length > 1) {
-            //     operate()
-                // display.textContent = ''
-            currentFunc = op.value
-            }) 
         })
+    })
 }
+
+
 
 showDisplay()
 
-function updateDisplay() {
-    let nind = +indVals.join('')
-    if (nind < 0 || nind > 0) {
-        displayVals.push(nind)
+equalBtn.addEventListener('click', showResult)
+
+function showResult() {
+    if (num1 === undefined || num2 === '') {
+        alert('Error!')
+    } else {
+        num2 = +val
+        operate()
     }
-    console.log(displayVals)
-    indVals = []
+}      
+
+function resetDisplay() {
     display.textContent = ''
 }
 
-addBtn.addEventListener('click', add)
-
-
-equalBtn.addEventListener('click', operate)
-
-
 function add(x, y) {
-    // x = +displayVals.join('')
-    // displayVals = []
-    // display.textContent = ''
-    // console.log(x, displayVal)
     return x + y
-	// let newX = x.reduce((cv, cr) => cv + cr, 0)
-    // return newX
 };
 
 const subtract = function(x,y) {
@@ -81,46 +90,47 @@ const subtract = function(x,y) {
 };
 
 const divide = function(x, y) {
-    if (y === 0) {
-        alert('Error! Cannot divide by zero')
-    } else {
-        return x / y
-    }
+    return x / y
 }
 
 const multiply = function(x, y) {
     return x * y
 };
 
-function operate(func, num1, num2) {
-    displayVals.push(+indVals.join(''))
-    num1 = displayVals[0]
-    num2 = displayVals[1]
+
+function operate(func, n1, n2) {
     func = currentFunc
+    n1 = num1
+    n2 = num2
+
     if (func === 'add') {
-        currentValue = add(displayVals[0], displayVals[1])
+        currentValue = add(n1, n2)
         display.textContent = currentValue
-        displayVals = [currentValue]
-        indVals = []
-    } else if(func === 'subtract') {
-        currentValue = subtract(displayVals[0], displayVals[1])
+        num1 = currentValue
+        num2 = ''
+        val = ''
+    } else if (func === 'subtract') {
+        currentValue = subtract(n1, n2)
         display.textContent = currentValue
-        displayVals = [currentValue]
-        indVals = []
-    } else if(func === 'divide') {
-        if (num2 === 0) {
-            alert('Error, cannot divide by zero!')
-        } else {
-            currentValue = divide(displayVals[0], displayVals[1])
-            display.textContent = currentValue
-            displayVals = [currentValue]
-            indVals = []
-        }
+        num1 = currentValue
+        num2 = ''
+        val = ''
     } else if (func === 'multiply') {
-        currentValue = multiply(displayVals[0], displayVals[1])
+        currentValue = multiply(n1, n2)
         display.textContent = currentValue
-        displayVals = [currentValue]
-        indVals = []
+        num1 = currentValue
+        num2 = ''
+        val = ''
+    } else if (func === 'divide') {
+        if (n2 === 0) {
+            alert('error, cannot divide by zero!')
+        } else {
+            currentValue = divide(n1, n2)
+            display.textContent = currentValue
+            num1 = currentValue
+            num2 = ''
+            val = ''
+        }
     }
 }
 
