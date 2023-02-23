@@ -38,7 +38,7 @@ function showDisplay() {
 
     opBtns.forEach(op => {
         op.addEventListener('click', function() {
-            if (currentFunc === undefined) {
+            if (currentFunc === undefined || num1 === undefined) {
                 currentFunc = op.value
                 num1 = +val
                 val = ''
@@ -64,6 +64,15 @@ function showDisplay() {
 
 
 showDisplay()
+
+clearBtn.addEventListener('click', clearDisplay)
+
+function clearDisplay() {
+    display.textContent = ''
+    num1 = undefined
+    num2 = undefined
+    val = ''
+}
 
 equalBtn.addEventListener('click', showResult)
 
