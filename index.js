@@ -1,19 +1,10 @@
 let numBtns = document.querySelectorAll('.num')
 let display = document.querySelector('#display')
-
-let addBtn = document.querySelector('#add-btn')
-let subBtn = document.querySelector('#sub-btn')
-let divBtn = document.querySelector('#div-btn')
-let multBtn = document.querySelector('#multiply-btn')
 let clearBtn = document.querySelector('#clear-btn')
-
 let opBtns = document.querySelectorAll('.op')
 let equalBtn = document.querySelector('#equal-btn')
-
 let currentFunc;
 let currentValue;
-
-
 let val = ''
 let num1;
 let num2;
@@ -61,11 +52,10 @@ function showDisplay() {
     })
 }
 
-
-
 showDisplay()
 
 clearBtn.addEventListener('click', clearDisplay)
+equalBtn.addEventListener('click', showResult)
 
 function clearDisplay() {
     display.textContent = ''
@@ -73,8 +63,6 @@ function clearDisplay() {
     num2 = undefined
     val = ''
 }
-
-equalBtn.addEventListener('click', showResult)
 
 function showResult() {
     if (num1 === undefined || num2 === '') {
@@ -85,17 +73,12 @@ function showResult() {
     }
 }      
 
-function resetDisplay() {
-    display.textContent = ''
-}
-
 function add(x, y) {
     return x + y
 };
 
 const subtract = function(x,y) {
     return x - y
-
 };
 
 const divide = function(x, y) {
@@ -105,7 +88,6 @@ const divide = function(x, y) {
 const multiply = function(x, y) {
     return x * y
 };
-
 
 function operate(func, n1, n2) {
     func = currentFunc
@@ -142,5 +124,3 @@ function operate(func, n1, n2) {
         }
     }
 }
-
-
