@@ -43,14 +43,17 @@ function showDisplay() {
                 currentFunc = op.value
                 historyDisplay.textContent = `${currentValue} ${currentFunc}`
             } 
-            else if (currentFunc === op.value && val != '') {
+            else if (currentFunc === op.value //val != '') 
+                ){
                 num2 = +val
                 val = ''
                 display.textContent = ''
+                historyDisplay.textContent = `${currentValue} ${currentFunc}`
+                operate()
                 console.log(num2)
             } else if (currentFunc != op.value) {
                 currentFunc = op.value
-                historyDisplay.textContent = `${currentValue} ${currentFunc}`
+                historyDisplay.textContent = `${num1} ${currentFunc}`
             }
         })
     })
@@ -66,6 +69,7 @@ function clearDisplay() {
     num1 = undefined
     num2 = undefined
     val = ''
+    historyDisplay.textContent = ''
 }
 
 function showResult() {
@@ -73,6 +77,7 @@ function showResult() {
         alert('Error! Select an operation to perform.')
     } else {
         num2 = +val
+        historyDisplay.textContent = `${num1} ${currentFunc} ${num2} =`
         operate()
     }
 }      
