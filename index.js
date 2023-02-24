@@ -1,8 +1,9 @@
 let numBtns = document.querySelectorAll('.num')
-let display = document.querySelector('#display')
+let display = document.querySelector('#display-value')
 let clearBtn = document.querySelector('#clear-btn')
 let opBtns = document.querySelectorAll('.op')
 let equalBtn = document.querySelector('#equal-btn')
+let historyDisplay = document.querySelector('#history-display')
 let currentFunc;
 let currentValue;
 let val = ''
@@ -33,12 +34,14 @@ function showDisplay() {
                 currentFunc = op.value
                 num1 = +val
                 val = ''
+                historyDisplay.textContent = num1 + ' ' + currentFunc
                 display.textContent = ''
                 console.log(num1)
             } else if (num1 != undefined && val != '') {
                 num2 = +val
                 operate()
                 currentFunc = op.value
+                historyDisplay.textContent = `${currentValue} ${currentFunc}`
             } 
             else if (currentFunc === op.value && val != '') {
                 num2 = +val
@@ -47,6 +50,7 @@ function showDisplay() {
                 console.log(num2)
             } else if (currentFunc != op.value) {
                 currentFunc = op.value
+                historyDisplay.textContent = `${currentValue} ${currentFunc}`
             }
         })
     })
@@ -66,7 +70,7 @@ function clearDisplay() {
 
 function showResult() {
     if (num1 === undefined || num2 === '') {
-        alert('Error!')
+        alert('Error! Select an operation to perform.')
     } else {
         num2 = +val
         operate()
@@ -94,25 +98,25 @@ function operate(func, n1, n2) {
     n1 = num1
     n2 = num2
 
-    if (func === 'add') {
+    if (func === '+') {
         currentValue = add(n1, n2)
         display.textContent = currentValue
         num1 = currentValue
         num2 = ''
         val = ''
-    } else if (func === 'subtract') {
+    } else if (func === '-') {
         currentValue = subtract(n1, n2)
         display.textContent = currentValue
         num1 = currentValue
         num2 = ''
         val = ''
-    } else if (func === 'multiply') {
+    } else if (func === 'x') {
         currentValue = multiply(n1, n2)
         display.textContent = currentValue
         num1 = currentValue
         num2 = ''
         val = ''
-    } else if (func === 'divide') {
+    } else if (func === '/') {
         if (n2 === 0) {
             alert('error, cannot divide by zero!')
         } else {
